@@ -2,12 +2,10 @@ This is my first DOC about Tensorflow.千里之行始于足下！
 
 # Getting Started With TensorFlow
 
----
-
 TensorFlow Core programs consist of two discrete(constituting a separate entity or part) sections:
 
 1. Buiding the computational graph.
-1. Runing the computational graph.
+2. Runing the computational graph.
 
  **A computational graph** is a series of TensorFlow operations arranged into a graph of nodes.
 
@@ -48,15 +46,19 @@ A **placeholder ** is a promise to provide a value later.
 
 We can evaluate this graph with multiple inputs by using the **feed_dict ** argument to the  [**run method**](https://www.tensorflow.org/api_docs/python/tf/Session#run) ** ** to feed _concrete _ values to the **placeholders** :
 
-    print(sess.run(adder_node, {a: 3, b: 4.5}))
-    print(sess.run(adder_node, {a: [1, 3], b: [2, 4]}))
+```python
+print(sess.run(adder_node, {a: 3, b: 4.5}))
+print(sess.run(adder_node, {a: [1, 3], b: [2, 4]}))
+```
 
 In machine learning we will typically want a model that take _arbitrary _ inputs, such as the one above. To make the model _trainable_ , we need to be able to _modify _ the graph to get new outputs with the same input. **Variables ** allow us to add trainable parameters to a graph.
 
-    W = tf.Variable([.3], dtype=tf.float32)
-    b = tf.Variable([-.3], dtype=tf.float32)
-    x = tf.placeholder(tf.float32)
-    linear_model = W*x + b
+```python
+W = tf.Variable([.3], dtype=tf.float32)
+b = tf.Variable([-.3], dtype=tf.float32)
+x = tf.placeholder(tf.float32)
+linear_model = W*x + b
+```
 
 NOTICE:
 
@@ -80,8 +82,10 @@ constants are initialized when you call `tf.constant` , and their value can neve
 
 To initialize all the variables in a TensorFlow program, you must explicity call a special operation as follow:
 
-    init = tf.global_variables_initializer()
-    sess.run(init)
+```python
+init = tf.global_variables_initializer()
+sess.run(init)
+```
 
 ---
 
@@ -93,12 +97,36 @@ To initialize all the variables in a TensorFlow program, you must explicity call
 
 # Loss function
 
----
-
 A loss function measures how far apart the current model is from the provided data.
 
 Three operation used below:
 
 1.  [tf.square](https://www.tensorflow.org/api_docs/python/tf/square)
-1.  [tf.reduce_sum](https://www.tensorflow.org/api_docs/python/tf/reduce_sum)
-1.  [tf.assign](https://www.tensorflow.org/api_docs/python/tf/assign)
+2.  [tf.reduce_sum](https://www.tensorflow.org/api_docs/python/tf/reduce_sum)
+3.  [tf.assign](https://www.tensorflow.org/api_docs/python/tf/assign)
+
+## tf.train API
+---
+The simplest optmizer is **gardient descent**.
+
+it modifies each variable according to the magnitude of the **derivative**(导数) of loss with respect to that variable.
+
+TensorFlow can automatically produce derivatives given only a description of the model using the function `tf.gradients`.
+
+For example:
+
+```python
+optimizer = tf.train.GradientDescentOptimizer(0.01)
+
+train = optimizer.minimize(loss)
+
+sess.run(init) #reset values to incorrect defaults.
+
+for i in range(1000):
+
+	sess.run(train, {x:[1,2,3,4],y:[0,-1,-2,-3]})
+print(sess.run[W,b])
+```
+
+
+
