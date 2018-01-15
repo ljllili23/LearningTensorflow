@@ -97,7 +97,7 @@ To initialize all the variables in a TensorFlow program, you must explicity call
 
 A loss function measures how far apart the current model is from the provided data.
 
-two operation used below:
+Three operation used below:
 
 1.  [tf.square](https://www.tensorflow.org/api_docs/python/tf/square)
 1.  [tf.reduce_sum](https://www.tensorflow.org/api_docs/python/tf/reduce_sum)
