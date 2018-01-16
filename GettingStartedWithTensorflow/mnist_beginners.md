@@ -120,3 +120,86 @@ $$
 $$
 y = \text{softmax}(Wx+b)
 $$
+
+## Implementing the Regression
+
+---
+
+Tensorflow lets us describe a graph of interacting operations that run entirely outside Python.
+
+[mnist_beginners.py](C:\Users\Shin\Documents\GitHub\LearningTensorflow\GettingStartedWithTensorflow\mnist_beginners.py)
+
+
+
+To use TensorFlow, first we need to import it.
+
+```
+import tensorflow as tf
+
+```
+
+We describe these interacting operations by manipulating symbolic variables. Let's create one:
+
+```
+x = tf.placeholder(tf.float32, [None, 784])
+
+```
+
+`x` isn't a specific value. It's a `placeholder`, a value that we'll input when we ask TensorFlow to run a computation. We want to be able to input any number of MNIST images, each flattened into a 784-dimensional vector. We represent this as a 2-D tensor of floating-point numbers, with a shape `[None, 784]`. (Here `None` means that a dimension can be of any length.)
+
+We also need the weights and biases for our model. We could imagine treating these like additional inputs, but TensorFlow has an even better way to handle it: `Variable`. A `Variable` is a modifiable tensor that lives in TensorFlow's graph of interacting operations. It can be used and even modified by the computation. For machine learning applications, one generally has the model parameters be `Variable`s.
+
+```
+W = tf.Variable(tf.zeros([784, 10]))
+b = tf.Variable(tf.zeros([10]))
+
+```
+
+We create these `Variable`s by giving `tf.Variable` the initial value of the `Variable`: in this case, we initialize both `W` and `b` as tensors full of zeros. Since we are going to learn `W`and `b`, it doesn't matter very much what they initially are.
+
+Notice that `W` has a shape of [784, 10] because we want to multiply the 784-dimensional image vectors by it to produce 10-dimensional vectors of evidence for the difference classes. `b` has a shape of [10] so we can add it to the output.
+
+We can now implement our model. It only takes one line to define it!
+
+```
+y = tf.nn.softmax(tf.matmul(x, W) + b)
+
+```
+
+First, we multiply `x` by `W` with the expression `tf.matmul(x, W)`. This is flipped from when we multiplied them in our equation, where we had $Wx$, as a small trick to deal with `x` being a 2D tensor with multiple inputs. We then add `b`, and finally apply `tf.nn.softmax`.
+
+That's it. It only took us one line to define our model, after a couple short lines of setup. That isn't because TensorFlow is designed to make a softmax regression particularly easy: it's just a very flexible way to describe many kinds of numerical computations, from machine learning models to physics simulations. And once defined, our model can be run on different devices: your computer's CPU, GPUs, and even phones!
+
+
+
+## Training
+
+---
+
+In order to train our model, we need to define what it means for the model to be good.
+
+actually, in machine learning we typically define what it means for a model to be bad.
+
+**We call this the cost, or the loss.**
+
+
+
+One very common, very nice function to determine the loss of a model is called "**cross entropy**"交叉熵。
+$$
+H_{y'}(y) = -\sum_i y'_i \log(y_i)
+$$
+
+```python
+cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y), reduction_indices=[1]))
+```
+
+functions used above:
+
+1. tf.reduce_mean
+2. tf.reduce_sum
+3. tf.log
+
+**comparation:**
+
+- `tf.matmul` means matrix multiply.
+- `*` means multiply each element.
