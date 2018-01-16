@@ -1,6 +1,6 @@
 # MNIST Tutorial
 
-*authour: LeeJiangLee*
+*author: LeeJiangLee*
 
 *2018/01/16*
 
