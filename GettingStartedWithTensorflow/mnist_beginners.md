@@ -83,6 +83,40 @@ We do a weighted sum of the pixel intensities.
 
 The following diagram shows the weights on model learned for each of these classes. ==Red== represents ==nagative== weights, while ==blue== represents ==positive== weights.
 
-> 下面这几个图是同一个权值矩阵对0~9，10个不同的图片的激活图。（应该是用来识别‘3’的。
+> 下面这几个图是同一个权值矩阵对0~9，10个不同的图片的激活图。（应该是用来识别‘3’的。)
 
 ![img](https://www.tensorflow.org/images/softmax-weights.png)
+
+
+
+We also add some extra evidence called a bias. 
+
+输入是$x$，其是第$i$类的证据为：
+$$
+\text{evidence}i = \sum_j W{i,~j}x_j + b_i
+$$
+
+> $W_i$ is the weights and $b_i$ is the bias for class $i$, and $j$ is an index for summing over the pixels in our image x.
+
+$$
+y=\text{softmax}(\text{evidence})
+$$
+
+Here softmax is serving as an "activation" or "link" function, shaping the output of our linear function into the form we want.
+
+ You can think of it as converting tallies of evidence into probabilities of our input being in each class.
+$$
+\text{softmax}(evidence) = \text{normalize}(\exp(evidence))
+$$
+也就是归一化成概率分布。
+
+可以把softmax regression看成下面的过程。
+
+![img](https://www.tensorflow.org/images/softmax-regression-scalargraph.png)
+
+![imag](https://www.tensorflow.org/images/softmax-regression-vectorequation.png)
+
+
+$$
+y = \text{softmax}(Wx+b)
+$$
