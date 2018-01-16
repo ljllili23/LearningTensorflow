@@ -20,7 +20,7 @@ In this tutorial, we're going to train a model to look at images and predict wha
 
 
 
-##The MNIST Data
+## The MNIST Data
 
 ---
 
@@ -41,7 +41,7 @@ The result is that `mnist.train.images` is a tensor (an n-dimensional array) wit
 
 ![img](https://www.tensorflow.org/images/mnist-train-xs.png)
 
-###NOTICE
+### NOTICE
 
 ---
 
