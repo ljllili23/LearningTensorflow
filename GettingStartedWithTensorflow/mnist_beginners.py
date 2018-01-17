@@ -13,7 +13,7 @@ x = tf.placeholder(tf.float32, [None,784])
 W = tf.Variable(tf.zeros([784,10]))
 b = tf.Variable(tf.zeros([10]))
 
-y = tf.nn.sotfmax(tf.matmul(x,W) + b)
+y = tf.nn.softmax(tf.matmul(x,W) + b)
 y_ = tf.placeholder(tf.float32, [None, 10])
 
 #determine the loss of a model
@@ -27,7 +27,9 @@ for _ in range(1000):
     batch_xs, batch_ys = mnist.train.next_batch(100)
     sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
 
-correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))
+correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))  
+#tf.argmax is an extremely useful function which gives the index of the highest
+#entry in a tensor along some axis.
 
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 print(sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels}))

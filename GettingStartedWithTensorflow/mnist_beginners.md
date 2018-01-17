@@ -127,8 +127,6 @@ $$
 
 Tensorflow lets us describe a graph of interacting operations that run entirely outside Python.
 
-[mnist_beginners.py](C:\Users\Shin\Documents\GitHub\LearningTensorflow\GettingStartedWithTensorflow\mnist_beginners.py)
-
 
 
 To use TensorFlow, first we need to import it.
@@ -203,3 +201,32 @@ functions used above:
 
 - `tf.matmul` means matrix multiply.
 - `*` means multiply each element.
+
+[more detail](https://www.tensorflow.org/get_started/mnist/beginners)
+
+## Evaluating Our Model
+
+---
+
+How can we figure out the correct label predicted?
+
+`tf.argmax` is an extremely useful function which gives you the index of the highest entry in a tensor along some axis.
+
+For example, `tf.argmax(y,1)` is the label our model thinks is most likely for each input, while `tf.argmax(y_,1)` is the correct label.
+
+We can use `tf.equal`	to check if our prediction matches the truth.
+
+```python
+correct_prediction = tf.equal(tf.argmax(y,1),tf.argmax(y_,1))
+```
+
+That gives us a list of booleans. 
+
+To determine what fraction are correct, we cast to floating point numbers and then take the *mean* .
+
+For example, `[True, False, True, True]` would become `[1,0,1,1]` which would become `0.75`.
+
+
+
+[mnist_beginners.py](C:\Users\Shin\Documents\GitHub\LearningTensorflow\GettingStartedWithTensorflow\mnist_beginners.py)
+
