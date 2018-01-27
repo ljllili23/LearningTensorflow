@@ -4,8 +4,6 @@
 
 ## Setup
 
----
-
 ### Load MNIST Data
 
 `mnist` is a lightweight class which stores the training, validation and testing sets as NumPy arrays.
@@ -97,4 +95,43 @@ Its weight tensor will have a shape of `[5,5,1,32]`.
 W_conv1 = weight_variable([5, 5, 1, 32])
 b_conv1 = bias_variable([32])
 ```
+
+To apply the layer, we first reshape x to a 4d tensor, with the second and third dimensions corresponding to image width and height, and the final dimention corresponding to the number of color channels.
+
+`x_image = tf.reshape(x,[-1,28,28,1])` 
+
+> **Question:WHY do we use the shape [-1，28，28，1]?**
+
+#### next:
+
+- convolve `x_image` with the weight tensor, and the bias,
+- apply the ReLU function,
+- and finally max pool.
+
+The `max_pool_2x2` method will reduce the image size to 14x14.
+
+```python
+h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)
+h_pool1 = max_pool_2x2(h_conv1)
+```
+
+### Second Convlutional Layer
+
+The second layer will have 64 features for each 5x5 patch.
+
+```python
+W_conv2 = weight_variable([5,5,32,64])
+b_conv2 = bias_variable([64])
+
+h_conv2 = tf.nn.relu(conv2d(h_pool1,W_conv2) + b_conv2)
+h_pool2 = max_pool_2x2(h_conv2)
+```
+
+### Densely Connected Layer
+
+Now that the image size has been reduced to 7x7,
+
+we add a fully-connected layer with 1024 neurons to allow processing on the entire image. 
+
+We reshape the tensor from the pooling layer into a bathc of vectors, multiply by a weight matrix, add a bias, add apply a ReLU.
 
